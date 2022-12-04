@@ -6,12 +6,20 @@ import { LOCK_ADDRESS } from "../constants/addresses";
 export const useLockContract = () => {
   const [contract, setContract] = useState();
 
+  
+
   useEffect(() => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    provider.send('eth_requestAccounts', []);
-    const _contract = new ethers.Contract(LOCK_ADDRESS, LOCK_ABI, provider);
-    setContract(_contract);
+    const getContract = async () => {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send('eth_requestAccounts', []);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(LOCK_ADDRESS, LOCK_ABI, signer);
+      setContract(contract);
+    };
+    getContract();
   }, []);
+  
+
 
   return contract
 };
