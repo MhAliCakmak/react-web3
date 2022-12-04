@@ -8,6 +8,7 @@ export const useLockContract = () => {
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    provider.send('eth_requestAccounts', []);
     const _contract = new ethers.Contract(LOCK_ADDRESS, LOCK_ABI, provider);
     setContract(_contract);
   }, []);

@@ -76,7 +76,7 @@ export const LOCK_ABI= [
 		"type": "function"
 	}
 ]
-export const EFLA_ABI=[
+export const ERC20=[
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",

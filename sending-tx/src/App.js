@@ -1,22 +1,37 @@
 import { useLockContract } from "./hooks/useLockContract";
 import { BigNumber, ethers } from "ethers";
 import { useState, useEffect } from "react";
+import { useAllowance } from "./hooks/useLockAllowance";
 import "./App.css";
 
 function App() {
-  const lockContract = useLockContract();
-  const [totalLockedAmount, setTotalLockedAmount] = useState(BigNumber.from(0));
+  const contract = useLockContract();
+  const [value, setValue] = useState("");
 
-  const getTotalLocked = async () => {
-    if(!lockContract) return;
-    const totalLocked = await lockContract?.totalLocked();
-    setTotalLockedAmount(totalLocked);
+  const { allowance, approve, isApproving } = useAllowance();
+
+  const lock = async () => {
+    const _value = ethers.utils.parseEther(value);
+
+    await contract.lockTokens(_value);
   };
-  
-  console.log(totalLockedAmount);
+
   return (
     <div className="App">
-     
+      <input
+        value={value}
+        placeholder="Enter value"
+        onChange={(e) => setValue(e.target.value)}
+      />
+
+      <button onClick={lock}>Lock</button>
+      <div>
+        <button onClick={approve} disabled={isApproving}>
+          Approve
+        </button>
+        <span>{allowance.toString()}</span>
+
+      </div>
     </div>
   );
 }
