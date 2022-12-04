@@ -18,6 +18,7 @@ function App() {
 
   return (
     <div className="App">
+      
       <input
         value={value}
         placeholder="Enter value"
@@ -29,8 +30,12 @@ function App() {
         <button onClick={approve} disabled={isApproving}>
           Approve
         </button>
-        <span>{allowance.toString()}</span>
+        <h4>allowance : {ethers.utils.formatEther(allowance)}</h4>
 
+        <h4>isApproving : {isApproving ? "true" : "false"}</h4>
+
+
+       
       </div>
     </div>
   );
