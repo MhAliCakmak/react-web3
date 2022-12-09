@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { ethers } from "ethers";
+import { setLockContract,setEflaTokenContract } from "./store/slicers/contracts";
 import "./App.css";
+import { LOCK_ABI, ERC20 } from "./constants/abi";
+import { LOCK_ADDRESS, EFLATOKEN_ADDRESS } from "./constants/addresses";
 import { setProvider,setSigner,setAddress } from "./store/slicers/data";
 
 function App() {
@@ -20,6 +23,12 @@ function App() {
       await provider.send('eth_requestAccounts', []);
       dispatch(setProvider(provider));
     }   
+    const lockContract= new ethers.Contract(LOCK_ADDRESS,LOCK_ABI,provider)
+    const eflaTokenContract= new ethers.Contract(EFLATOKEN_ADDRESS,ERC20,provider)
+    batch(()=>{
+      dispatch(setLockContract(lockContract));
+      dispatch(setEflaTokenContract(eflaTokenContract));
+    })
     getProvider(); 
     
   }, []);
