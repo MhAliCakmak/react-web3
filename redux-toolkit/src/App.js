@@ -22,14 +22,17 @@ function App() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send('eth_requestAccounts', []);
       dispatch(setProvider(provider));
-    }   
-    const lockContract= new ethers.Contract(LOCK_ADDRESS,LOCK_ABI,provider)
-    const eflaTokenContract= new ethers.Contract(EFLATOKEN_ADDRESS,ERC20,provider)
-    batch(()=>{
+      const lockContract= new ethers.Contract(LOCK_ADDRESS,LOCK_ABI,provider)
+      const eflaTokenContract= new ethers.Contract(EFLATOKEN_ADDRESS,ERC20,provider)
+      batch(()=>{
+      
       dispatch(setLockContract(lockContract));
       dispatch(setEflaTokenContract(eflaTokenContract));
     })
-    getProvider(); 
+    }   
+    getProvider();
+    
+     
     
   }, []);
 
@@ -47,6 +50,7 @@ function App() {
     // For this, you need the account signer...
     signer.getAddress().then((address) => {
       batch(()=>{
+
         dispatch(setSigner(signer));
         dispatch(setAddress(address));
       })
