@@ -12,8 +12,14 @@ function App() {
 
   const lock = async () => {
     const _value = ethers.utils.parseEther(value);
+    try{
+      const txn= await contract.lockTokens(_value)
+      await txn.wait()
+    }
+    catch(err){
+      console.log(err)
+    }
 
-    await contract.lockTokens(_value);
   };
 
   return (
